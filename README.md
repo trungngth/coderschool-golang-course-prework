@@ -6,11 +6,11 @@
 ## Set of User Stories
 
 ### Required
-* [ ] Command-line argument parsing
-* [ ] Input params
-   * [ ] Requests - Number of requests to perform
-   * [ ] Concurrency - Number of multiple requests to make at a time
-   * [ ] URL - The URL for testing.
+* [x] Command-line argument parsing
+* [x] Input params
+   * [x] Requests - Number of requests to perform
+   * [x] Concurrency - Number of multiple requests to make at a time
+   * [x] URL - The URL for testing.
 * [ ] Prints use information if wrong arguments provided
 * [ ] Implements  HTTP load and summarize it
 * [ ] Concurrency must be implemented with goroutine.

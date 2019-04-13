@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"os"
 )
 
 func main() {
@@ -14,5 +15,9 @@ func main() {
 	fmt.Println(&requests, &concurrency)
 	fmt.Println(*requests, *concurrency)
 	flag.Parse()
-	flag.PrintDefaults()
+
+	if flag.NArg() == 0 || *requests == 0 || *requests < *concurrency {
+		flag.PrintDefaults()
+		os.Exit(1)
+	}
 }
