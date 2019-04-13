@@ -103,7 +103,7 @@ func flagValidation() {
 	}
 
 	if link == "" {
-		fmt.Println("Please enter a web addresss.")
+		fmt.Println("Please enter a web address.")
 		os.Exit(-1)
 	}
 
