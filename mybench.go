@@ -33,18 +33,11 @@ func main() {
 
 	requests = flag.Int64("n", 1, "Number of requests to perform")
 	concurrency = flag.Int64("c", 1, "Number of multiple requests to make at a time")
-
-	//fmt.Println(requests, concurrency)
 	flag.Parse()
-
 	link = flag.Arg(0)
 
+	//Check whether input values are valid or not
 	flagValidation()
-
-	// if flag.NArg() == 0 || *requests == 0 || *requests < *concurrency {
-	// 	flag.PrintDefaults()
-	// 	os.Exit(-1)
-	// }
 
 	c := make(chan responseInfo)
 
@@ -91,22 +84,18 @@ func flagValidation() {
 		fmt.Println("You must enter at least 1 argument.")
 		os.Exit(-1)
 	}
-
 	if *requests <= 0 {
 		fmt.Println("Number of requests to perform must be a positive number. Default is 1.")
 		os.Exit(-1)
 	}
-
 	if *concurrency <= 0 {
 		fmt.Println("Number of multiple requests to make at a time must be a positive number. Default is 1.")
 		os.Exit(-1)
 	}
-
 	if link == "" {
 		fmt.Println("Please enter a web address.")
 		os.Exit(-1)
 	}
-
 	if *requests < *concurrency {
 		fmt.Println("Number of requests to perform must be greater than number of multiple requests.")
 		os.Exit(-1)
