@@ -21,21 +21,30 @@ type summaryInfo struct {
 	responded int64
 }
 
+var (
+	requests    *int64
+	concurrency *int64
+	link        string
+)
+
 func main() {
+
 	fmt.Println("Hello from my app")
 
-	requests := flag.Int64("n", 1, "Number of requests to perform")
-	concurrency := flag.Int64("c", 1, "Number of multiple requests to make at a time")
+	requests = flag.Int64("n", 1, "Number of requests to perform")
+	concurrency = flag.Int64("c", 1, "Number of multiple requests to make at a time")
 
-	fmt.Println(requests, concurrency)
+	//fmt.Println(requests, concurrency)
 	flag.Parse()
 
-	if flag.NArg() == 0 || *requests == 0 || *requests < *concurrency {
-		flag.PrintDefaults()
-		os.Exit(-1)
-	}
+	link = flag.Arg(0)
 
-	link := flag.Arg(0)
+	flagValidation()
+
+	// if flag.NArg() == 0 || *requests == 0 || *requests < *concurrency {
+	// 	flag.PrintDefaults()
+	// 	os.Exit(-1)
+	// }
 
 	c := make(chan responseInfo)
 
@@ -74,5 +83,32 @@ func checkLink(link string, c chan responseInfo) {
 		status:   res.StatusCode,
 		bytes:    read,
 		duration: time.Now().Sub(start),
+	}
+}
+
+func flagValidation() {
+	if flag.NArg() == 0 {
+		fmt.Println("You must enter at least 1 argument.")
+		os.Exit(-1)
+	}
+
+	if *requests <= 0 {
+		fmt.Println("Number of requests to perform must be a positive number. Default is 1.")
+		os.Exit(-1)
+	}
+
+	if *concurrency <= 0 {
+		fmt.Println("Number of multiple requests to make at a time must be a positive number. Default is 1.")
+		os.Exit(-1)
+	}
+
+	if link == "" {
+		fmt.Println("Please enter a web addresss.")
+		os.Exit(-1)
+	}
+
+	if *requests < *concurrency {
+		fmt.Println("Number of requests to perform must be greater than number of multiple requests.")
+		os.Exit(-1)
 	}
 }
