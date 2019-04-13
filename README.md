@@ -1,4 +1,4 @@
-# CoderSchool Golang Course Prework Submission Template
+# CoderSchool Golang Course Prework Submission
 
 1. **Submitted by: trungngth**
 2. **Time spent: (counting)**
