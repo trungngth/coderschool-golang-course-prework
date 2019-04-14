@@ -52,6 +52,7 @@ func main() {
 	flagValidation()
 
 	c := make(chan responseInfo)
+	var responseToPrint []responseInfo
 
 	summary := summaryInfo{}
 
@@ -73,7 +74,7 @@ func main() {
 		}
 
 		summary.responded++
-		fmt.Println(response)
+		responseToPrint = append(responseToPrint, response)
 		if summary.responded == summary.requested {
 			break
 		}
@@ -84,6 +85,10 @@ func main() {
 	if stopBenchmarking.Sub(startBenchmarking) > time.Duration(int(*timeLimit))*time.Second {
 		fmt.Println("Benchmark time out!")
 		os.Exit(-1)
+	}
+
+	for _, res := range responseToPrint {
+		fmt.Println(res)
 	}
 }
 
