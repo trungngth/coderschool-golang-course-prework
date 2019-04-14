@@ -80,7 +80,7 @@ func checkLink(link string, c chan responseInfo) {
 }
 
 func flagValidation() {
-	if flag.NArg() == 0 {
+	if flag.NArg() == 0 || link == "" {
 		fmt.Println("You must enter at least 1 argument.")
 		os.Exit(-1)
 	}
@@ -90,10 +90,6 @@ func flagValidation() {
 	}
 	if *concurrency <= 0 {
 		fmt.Println("Number of multiple requests to make at a time must be a positive number. Default is 1.")
-		os.Exit(-1)
-	}
-	if link == "" {
-		fmt.Println("Please enter a web address.")
 		os.Exit(-1)
 	}
 	if *requests < *concurrency {
