@@ -71,10 +71,15 @@ func main() {
 func checkLink(link string, c chan responseInfo) {
 	start := time.Now()
 	res, err := http.Get(link)
+	end := time.Now()
+	if end.Sub(start) > time.Duration(int(*timeOut))*time.Second {
+		fmt.Println("Time out!")
+		os.Exit(-1)
+	}
+
 	if err != nil {
 		panic(err)
 	}
-
 	read, _ := io.Copy(ioutil.Discard, res.Body)
 
 	c <- responseInfo{

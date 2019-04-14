@@ -17,8 +17,8 @@
 
 
 ### Bonus
-* [ ] Extend input params with: 
-   * [ ] Timeout - Seconds to max. wait for each response
+* [x] Extend input params with: 
+   * [x] Timeout - Seconds to max. wait for each response
    * [ ] Timelimit - Maximum number of seconds to spend for benchmarking
 * [ ] Prints key metrics of summary, such:
    * [ ] Server Hostname
