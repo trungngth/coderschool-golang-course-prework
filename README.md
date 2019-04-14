@@ -1,7 +1,7 @@
 # CoderSchool Golang Course Prework Submission
 
-1. **Submitted by: trungngth**
-2. **Time spent: (counting)**
+1. **Submitted by: Trung Nguyen aka Vincent Nguyen**
+2. **Time spent: 5 Hours**
 
 ## Set of User Stories
 
