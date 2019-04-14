@@ -45,8 +45,12 @@ func main() {
 	flagValidation()
 
 	c := make(chan responseInfo)
+	responseChannel := make(chan responseInfo)
 
 	summary := summaryInfo{}
+
+	//Start the benchmark
+	startBenchmarking := time.Now()
 
 	for i := int64(0); i < *concurrency; i++ {
 		summary.requested++
@@ -60,10 +64,22 @@ func main() {
 		}
 
 		summary.responded++
-		fmt.Println(response)
+		//fmt.Println(response)
+		responseChannel <- response
 		if summary.responded == summary.requested {
 			break
 		}
+	}
+
+	stopBenchmarking := time.Now()
+
+	if stopBenchmarking.Sub(startBenchmarking) > time.Duration(int(*timeLimit))*time.Second {
+		fmt.Println("Benchmark time out!")
+		os.Exit(-1)
+	}
+
+	for printResponse := range responseChannel {
+		fmt.Println(printResponse)
 	}
 
 }
@@ -72,11 +88,12 @@ func checkLink(link string, c chan responseInfo) {
 	start := time.Now()
 	res, err := http.Get(link)
 	end := time.Now()
+
+	//Check timeout waiting for response
 	if end.Sub(start) > time.Duration(int(*timeOut))*time.Second {
-		fmt.Println("Time out!")
+		fmt.Println("Request time out!")
 		os.Exit(-1)
 	}
-
 	if err != nil {
 		panic(err)
 	}
