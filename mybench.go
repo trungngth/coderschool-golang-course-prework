@@ -6,6 +6,7 @@ import (
 	"io"
 	"io/ioutil"
 	"net/http"
+	"net/url"
 	"os"
 	"time"
 )
@@ -19,6 +20,12 @@ type responseInfo struct {
 type summaryInfo struct {
 	requested int64
 	responded int64
+}
+
+type serverInfo struct {
+	serverHostName string
+	serverPort     string
+	documentPath   string
 }
 
 var (
@@ -45,9 +52,11 @@ func main() {
 	flagValidation()
 
 	c := make(chan responseInfo)
-	responseChannel := make(chan responseInfo)
 
 	summary := summaryInfo{}
+
+	//Extract the server's info
+	getServerInfo()
 
 	//Start the benchmark
 	startBenchmarking := time.Now()
@@ -64,8 +73,8 @@ func main() {
 		}
 
 		summary.responded++
-		//fmt.Println(response)
-		responseChannel <- response
+		fmt.Println(response)
+		//responseChannel <- response
 		if summary.responded == summary.requested {
 			break
 		}
@@ -76,10 +85,6 @@ func main() {
 	if stopBenchmarking.Sub(startBenchmarking) > time.Duration(int(*timeLimit))*time.Second {
 		fmt.Println("Benchmark time out!")
 		os.Exit(-1)
-	}
-
-	for printResponse := range responseChannel {
-		fmt.Println(printResponse)
 	}
 
 }
@@ -127,4 +132,19 @@ func flagValidation() {
 		fmt.Println("Number of requests to perform must be greater than number of multiple requests.")
 		os.Exit(-1)
 	}
+}
+
+func getServerInfo() {
+	server := serverInfo{}
+	u, err := url.Parse(link)
+	if err != nil {
+		panic(err)
+	}
+	server.serverHostName = u.Hostname()
+	if len(u.Port()) != 0 {
+		server.serverPort = u.Port()
+	}
+	server.documentPath = u.Path
+	fmt.Println("Server info ", server)
+
 }

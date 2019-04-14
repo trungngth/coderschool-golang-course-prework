@@ -21,9 +21,9 @@
    * [x] Timeout - Seconds to max. wait for each response
    * [x] Timelimit - Maximum number of seconds to spend for benchmarking
 * [ ] Prints key metrics of summary, such:
-   * [ ] Server Hostname
-   * [ ] Server Port
-   * [ ] Document Path
+   * [x] Server Hostname
+   * [x] Server Port
+   * [x] Document Path
    * [ ] Document Length
    * [ ] Concurrency Level
    * [ ] Time taken for tests
