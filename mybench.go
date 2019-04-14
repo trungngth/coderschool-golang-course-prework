@@ -74,19 +74,17 @@ func main() {
 
 		summary.responded++
 		fmt.Println(response)
-		//responseChannel <- response
 		if summary.responded == summary.requested {
 			break
 		}
 	}
-
+	//Stop the benchmark
 	stopBenchmarking := time.Now()
 
 	if stopBenchmarking.Sub(startBenchmarking) > time.Duration(int(*timeLimit))*time.Second {
 		fmt.Println("Benchmark time out!")
 		os.Exit(-1)
 	}
-
 }
 
 func checkLink(link string, c chan responseInfo) {
@@ -146,5 +144,4 @@ func getServerInfo() {
 	}
 	server.documentPath = u.Path
 	fmt.Println("Server info ", server)
-
 }
